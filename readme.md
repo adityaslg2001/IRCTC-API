@@ -22,6 +22,8 @@ To ensure smooth running of this project: ensure,
 - MySQL is running locally or on phpMyAdmin.
 - To test APIs, I have used Postman app. (local)  [I HAVE INCLUDED ALL IMAGES FOR YOUR REFERENCE]
 
+  Below I have listed down the requirements and the process of completion, to look at the tables, please refer sql-tables.txt
+
 ## 1. Register a User
 
 **Objective:**  
