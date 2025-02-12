@@ -1,4 +1,4 @@
-# Railway Management System API – Technical Implementation Details
+# IRCTC API – Technical Implementation
 
 This document explains, step by step, how I built the Railway Management System API. The API allows users to register, log in, check train availability, and book seats. Admin users can add new trains. I’ve implemented security measures using JWT for authentication and an API key for protecting admin endpoints. 
 
