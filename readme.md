@@ -12,6 +12,8 @@ Allow new users to register on the platform.
 - **Endpoint:** `POST /api/v1/auth/register`
 - **Input Data:**  
   Users send a JSON payload with their `name`, `email`, and `password` (the role defaults to `"user"`).
+
+  ![Screenshot 1](postman-screenshots/sql-1.png "Screenshot of Postman Request")
   
 - **Processing Details:**
   - **Password Hashing:**  
@@ -23,6 +25,8 @@ Allow new users to register on the platform.
 
 - **Output:**  
   A JSON response that includes the user’s details and the JWT token for further authentication.
+
+  ![Screenshot 1](postman-screenshots/pm1.png "Screenshot of Postman Request")
 
 ---
 
@@ -48,6 +52,8 @@ Allow users to log into their accounts.
 - **Output:**  
   A JSON response with the user's details and the JWT token, which is required for protected endpoints.
 
+  ![Screenshot 1](postman-screenshots/pm2.png "Screenshot of Postman Request")
+
 ---
 
 ## 3. Add a New Train (Admin Only)
@@ -60,6 +66,8 @@ Allow admin users to add new trains with specified details like source, destinat
 - **Endpoint:** `POST /api/v1/admin/train`
 - **Security:**  
   This endpoint is protected by an API key. The request must include an `x-api-key` header that matches the `ADMIN_API_KEY` in the environment variables.
+
+  ![Screenshot 1](postman-screenshots/pm3.2.png "Screenshot of Postman Request")
   
 - **Input Data:**  
   Admins send a JSON payload with:
@@ -74,6 +82,8 @@ Allow admin users to add new trains with specified details like source, destinat
     The admin middleware checks the API key before proceeding.
   - **Database Insertion:**  
     A new train is inserted into the `train` table. The `available_seats` is set to the same value as `total_seats`.
+
+    ![Screenshot 1](postman-screenshots/pm3.1.png "Screenshot of Postman Request")
 
 - **Output:**  
   A JSON response confirming that the train was added, including the new train’s ID.
@@ -90,12 +100,16 @@ Allow users to fetch a list of available trains along with seat availability bet
 - **Endpoint:** `GET /api/v1/trains/availability`
 - **Input Data:**  
   Users provide `source` and `destination` as query parameters.
+
+  ![Screenshot 1](postman-screenshots/pm4.1.png "Screenshot of Postman Request")
   
 - **Processing Details:**
   - The endpoint queries the `train` table for trains that match the given source and destination.
   
 - **Output:**  
   A JSON array of trains with details like `train_no`, `train_name`, and `available_seats`.
+
+  ![Screenshot 1](postman-screenshots/pm4.2.png "Screenshot of Postman Request")
 
 ---
 
@@ -114,19 +128,21 @@ Allow authenticated users to book seats on a selected train.
   The request body includes:
   - `trainId`
   - `numberOfSeats`
+ 
+  ![Screenshot 1](postman-screenshots/sql-2.png "Screenshot of Postman Request")
   
 - **Processing Details:**
   - **User Identification:**  
-    I extract the user’s `id` from the JWT token.
+    Extracted the user’s `id` from the JWT token.
   - **Handling Concurrent Bookings:**  
-    I start a MySQL transaction and lock the train record using a `FOR UPDATE` query. This prevents simultaneous modifications.
+    I started a MySQL transaction and locked the train record using a `FOR UPDATE` query. This prevents simultaneous modifications.
   - **Seat Deduction:**  
-    I check that enough seats are available. If they are, I deduct the booked seats from `available_seats`.
+    I checked if enough seats are available. If they are, I deduct the booked seats from `available_seats`.
   - **Booking Record Creation:**  
     A new booking is recorded in the `bookings` table.
-  - **Transaction Commit:**  
-    I commit the transaction to ensure data integrity.
-
+    
+  ![Screenshot 1](postman-screenshots/sql-3.png "Screenshot of Postman Request")
+  
 - **Output:**  
   A JSON response confirming the booking and providing a booking ID.
 
@@ -142,12 +158,14 @@ Allow users to view the details of a booking they have made.
 - **Endpoint:** `GET /api/v1/booking/:id`
 - **Security:**  
   This endpoint also requires JWT authentication. The JWT token must be sent in the `Authorization` header.
+
+  ![Screenshot 1](postman-screenshots/pm5.png "Screenshot of Postman Request")
   
 - **Input Data:**  
   The booking ID is provided as a URL parameter.
   
 - **Processing Details:**
-  - I verify that the booking belongs to the authenticated user by matching the booking’s `userId` with the `id` in the JWT token.
+  - I verified that the booking belongs to the authenticated user by matching the booking’s `userId` with the `id` in the JWT token.
   
 - **Output:**  
   A JSON response with the booking details.
