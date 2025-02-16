@@ -5,7 +5,7 @@ This document explains, step by step, how I built the Railway Management System 
 To run this project, first clone this repo using 
 
 ```rb
-git glone https://github.com/adityaslg2001/IRCTC-API.git
+git clone https://github.com/adityaslg2001/IRCTC-API.git
 ```
 
 Then navigate into the root directory of your project and in your terminal do: 
